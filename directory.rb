@@ -16,4 +16,4 @@ puts "Norman Bates"
 print "Overall, we have "
 # it's important that print() doesn't add new line characters
 print 11
-puts " great sudents"
+puts " great students"

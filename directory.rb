@@ -43,11 +43,12 @@ end
 def print(students)
 i = 0
 while i < students.count
-    puts "#{students[i][:name]} (#{students[i][:cohort]} cohort)"
-    puts "Hobby - #{students[i][:hobby]}"
-    puts "Country of Birth - #{students[i][:country_of_birth]}"
-    puts "Height - #{students[i][:height].to_s}cm"
-    puts "--------"
+    puts "#{students[i][:name]} (#{students[i][:cohort]} cohort)".center(80),
+    "Hobby - #{students[i][:hobby]}".center(80),
+    "Country of Birth - #{students[i][:country_of_birth]}".center(80),
+    "Height - #{students[i][:height]}cm".center(80)
+    puts "--------".center(80)
+    #puts "#{student_info}".center(80)
     i += 1
   end
 end # ending the method
@@ -77,7 +78,7 @@ end
 
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  puts "Overall, we have #{students.count} great students".center(80)
 end
 
 students = input_students #array of students returned by input_students is assigned to variable students

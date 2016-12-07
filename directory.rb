@@ -26,10 +26,36 @@ def print_header
 end
 
 def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
-  end # ending the block of code
+i = 0
+while i < students.count
+    puts "#{students[i][:name]} (#{students[i][:cohort]} cohort)" # we need to puts [i] to tell which variable to refer to
+    i += 1
+  end
 end # ending the method
+
+
+def names_start_with_S(students, letter = nil) # second argument- nil if defaul is nil
+
+  puts "A list of students whose names begin in #{letter}:"
+
+  students.each do |student|
+
+    if student[:name][0].downcase == nil || student[:name][0].downcase == letter.downcase # index number refers to the first letter in the name :name
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  end
+end
+
+def length_lessthan12(students)
+
+  puts "A list of students whose name is shorter than 12 characters:"
+  students.each do |student|
+    if student[:name].length < 12
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
+    end
+  end
+end
+
 
 def print_footer(students)
   puts "Overall, we have #{students.count} great students"

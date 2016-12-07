@@ -28,7 +28,7 @@ end
 def print(students)
   # USE .each_with_index to print number index before each name
   students.each_with_index do |student, index| # adding index as an argument to the block
-    puts "#{index}. #{ student[:name]} (#{student[:cohort]} cohort)"
+    puts "#{index+1}. #{ student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 

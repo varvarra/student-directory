@@ -15,21 +15,39 @@ students = [
 =end
 
 def input_students
-  puts "Please enter the names of the students"
+  puts "Please enter the names and cohort of the students"
   puts "To finish, just hit return twice"
   # create an empty array
   students = []
   # get the first name
   name = gets.chomp
+
   # while the name is not empty, repeat this block of code
   while !name.empty? do # until the input message is not empty do the following
     # add the student hash to the array
-    students << {name: name, cohort: :november, hobby: :skiing, country_of_birth: :UK, height: :"180"}
+    cohort = gets.chomp
+    if cohort.empty?
+       cohort = "November"
+    end
+
+    until ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].include? cohort
+      puts "You've made a typo, retype"
+      cohort = gets.chomp
+      if cohort.empty? 
+         cohort = "November"
+          break
+      end
+    end
+
+
+    students << {name: name, cohort: cohort.to_sym, hobby: :skiing, country_of_birth: :UK, height: :"180"}
     # now, we print a line to let the user know how many students have been entered so far
     puts "Now we have #{students.count} students"
     # get another name from the user
     name = gets.chomp
   end
+
+
   # return the array of students
   students
 end

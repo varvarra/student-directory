@@ -76,5 +76,5 @@ students = input_students
 
 print_header
 # passing the students variable to the methods as an argument (called "names" in both cases)
-puts names_start_with_S(students, "s")
+names_start_with_S(students, "s")
 print_footer(students)

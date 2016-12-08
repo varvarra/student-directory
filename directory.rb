@@ -42,10 +42,10 @@ def input_students
     students << {name: name, cohort: cohort.to_sym, hobby: :skiing, country_of_birth: :UK, height: :"180"}
     # now, we print a line to let the user know how many students have been entered so far
     if  students.count == 1
-       student_s = "student" #creating a new variable student_s which changes depending on the student.count and insert it to the string below
-     else student_s = "students"
+       student_string = "student" #creating a new variable student_s which changes depending on the student.count and insert it to the string below
+     else student_string = "students"
     end
-    puts "Now we have #{students.count} #{student_s}"
+    puts "Now we have #{students.count} #{student_string}"
 
     # get another name from the user
     name = gets.delete("\n")
@@ -57,13 +57,13 @@ def input_students
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy".center(80)
+  puts "-------------".center(80)
 end
 
-def print(students)
-i = 0
+def directory(students)
 
+i = 0
 while i < students.count
 
     puts "#{students[i][:name]} (#{students[i][:cohort]} cohort)".center(80),
@@ -79,10 +79,14 @@ end # ending the method
 
 
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(80)
+  if  students.count == 1
+     student_string = "student" #creating a new variable student_s which changes depending on the student.count and insert it to the string below
+   else student_string = "students"
+  end
+  puts "Overall, we have #{students.count} great #{student_string}\n".center(80)
 end
 
-def length_lessthan12(students)
+=begin def length_lessthan12(students)
 
   puts "A list of students whose name is shorter than 12 characters:"
   students.each do |student|
@@ -103,10 +107,24 @@ def names_start_with_S(students, letter = nil) # second argument- nil if defaul 
     end
   end
 end
+=end
+
+def not_empty_print(students)
+  if students.count >= 1
+    print_header
+    directory(students)
+    print_footer(students)
+  else
+    puts "You don't have any students on the list"
+  end
+end
+
+
 
 students = input_students #array of students returned by input_students is assigned to variable students
 # we should call the methods for something to happen
-print_header
+not_empty_print(students)
+#print_header
 # passing the students variable to the methods as an argument (called "names" in both cases)
-print(students)
-print_footer(students)
+#directory(students)
+#print_footer(students)

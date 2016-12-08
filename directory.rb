@@ -14,6 +14,31 @@ students = [
 ]
 =end
 
+def interactive_menu
+  students = [] # declare a variable students before the loop setting it to an empty array. It's useful as it would be available in several iterations of the loop. Otherise it would exist just in the first iteration
+  loop do
+      # 1. print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    # 2. read the input and save it into a variable
+    selection = gets.chomp
+    # 3. do what the user has asked
+    case selection
+    when "1"
+      students = input_students
+    when "2" # show the students
+      print_header
+      print(students)
+      print_footer(students)
+    when "9"
+      exit # this will terminate the programm
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
+end
+
 def input_students
   puts "Please enter the names and cohort of the students"
   puts "To finish, just hit return twice"
@@ -109,21 +134,21 @@ def names_start_with_S(students, letter = nil) # second argument- nil if defaul 
 end
 =end
 
-def not_empty_print(students)
+def print(students) # name changed to "print"
   if students.count >= 1
-    print_header
     directory(students)
-    print_footer(students)
   else
     puts "You don't have any students on the list"
   end
 end
 
+interactive_menu
 
-
-students = input_students #array of students returned by input_students is assigned to variable students
+#students = input_students #array of students returned by input_students is assigned to variable students
 # we should call the methods for something to happen
-not_empty_print(students)
+#print_header
+#print(students)
+#print_footer(students)
 #print_header
 # passing the students variable to the methods as an argument (called "names" in both cases)
 #directory(students)

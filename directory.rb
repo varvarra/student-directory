@@ -41,7 +41,12 @@ def input_students
 
     students << {name: name, cohort: cohort.to_sym, hobby: :skiing, country_of_birth: :UK, height: :"180"}
     # now, we print a line to let the user know how many students have been entered so far
-    puts "Now we have #{students.count} students"
+    if  students.count == 1
+       student_s = "student" #creating a new variable student_s which changes depending on the student.count and insert it to the string below
+     else student_s = "students"
+    end
+    puts "Now we have #{students.count} #{student_s}"
+
     # get another name from the user
     name = gets.chomp
     cohorts = []

@@ -1,5 +1,17 @@
 
 @students = [] # an empty array  accessible to all methods
+def load_students
+  file = File.open("students.csv", "r") # open file for reading
+  # then read all lines into array and iterate over it
+  # using parallel assignment
+  file.readlines.each do |line|
+  name, cohort = line.chomp.split(',') # assign  line to the name and cohort variables
+  #once we have the name and cohort we create a new hash and put it into teh list of students
+    @students << {name: name, cohort: cohort.to_sym}
+  end
+  file.close
+end
+
 
 def save_students
   # open the file for writing
@@ -12,6 +24,7 @@ def save_students
   end
   file.close # every time you open a file it needs to be closed
 end
+
 
 
 def input_students
@@ -42,6 +55,7 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -59,6 +73,8 @@ def process(selection)
       show_students
     when "3"
       save_students
+    when "4"
+      load_students
     when "9"
       exit # this will terminate the programm
     else

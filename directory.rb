@@ -1,43 +1,19 @@
 
 @students = [] # an empty array  accessible to all methods
 def input_students
-  puts "Please enter the names and cohort of the students"
+  puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-
+  # get the first name
   name = gets.chomp
-  # while the name is not empty, repeat this block of code
+  # while the name is not empty, repeat this code
   while !name.empty? do
-    cohort = gets.chomp
-    if cohort.empty?
-       cohort = "November"
-    end
-
-    while !["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].include? cohort
-      puts "You've made a typo, retype"
-      cohort = gets.chomp
-      if cohort.empty?
-         cohort = "November"
-          break
-      end
-    end
-
-    @students << {name: name, cohort: cohort.to_sym, hobby: :skiing, country_of_birth: :UK, height: :"180"}
-
-    if  @students.count == 1
-       student_string = "student"
-     else student_string = "students"
-    end
-    puts "Now we have #{@students.count} #{student_string}"
-
+    # add the student hash to the array
+    @students << {name: name, cohort: :november}
+    puts "Now we have #{@students.count} students"
     # get another name from the user
-    name = gets.delete("\n")
-
+    name = gets.chomp
   end
-    @students.sort_by {|x| x[:cohort]}
-  # return the sorted list of students
-
 end
-
 
 def interactive_menu
   loop do
@@ -56,7 +32,7 @@ end
 
 def show_students
   print_header
-  print_students_list
+  print_student_list
   print_footer
 end
 
@@ -78,31 +54,15 @@ def print_header
   puts "-------------".center(80)
 end
 
-def print_students_list # got rid of the directory method and improved the code of exercise 8(12)
-  if @students.count >= 1
-  i = 0
-  while i < @students.count
-      puts "#{@students[i][:name]} (#{@students[i][:cohort]} cohort)".center(80),
-      "Hobby - #{@students[i][:hobby]}".center(80),
-      "Country of Birth - #{@students[i][:country_of_birth]}".center(80),
-      "Height - #{@students[i][:height]}cm".center(80)
-      puts "--------".center(80)
-      #puts "#{student_info}".center(80)
-      i += 1
-    end
-      @students.sort_by {|x| x[:cohort]}
-  else
-    puts "You don't have any students on the list"
+def print_student_list
+  @students.each do |student|
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
-end # ending the method
-
-def print_footer
-  if  @students.count == 1
-     student_string = "student" #creating a new variable student_s which changes depending on the student.count and insert it to the string below
-   else student_string = "students"
-  end
-  puts "Overall, we have #{@students.count} great #{student_string}\n".center(80)
 end
 
-#@students = input_students # need this because input_students returns sorted by cohort
+def print_footer
+  puts "Overall, we have #{@students.count} great students"
+end
+
+
 interactive_menu

@@ -20,17 +20,17 @@ def input_students
   # create an empty array
   students = []
   # get the first name
-  name = gets.chomp
+  name = gets.delete("\n")
 
   # while the name is not empty, repeat this block of code
   while !name.empty? do # until the input message is not empty do the following
     # add the student hash to the array
-    cohort = gets.chomp
+    cohort = gets.delete("\n")
     if cohort.empty?
        cohort = "November"
     end
 
-    until ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].include? cohort
+    while !["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].include? cohort
       puts "You've made a typo, retype"
       cohort = gets.chomp
       if cohort.empty?
@@ -48,7 +48,7 @@ def input_students
     puts "Now we have #{students.count} #{student_s}"
 
     # get another name from the user
-    name = gets.chomp
+    name = gets.delete("\n")
     cohorts = []
 
   end

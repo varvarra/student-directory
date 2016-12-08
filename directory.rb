@@ -33,25 +33,23 @@ def input_students
     until ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].include? cohort
       puts "You've made a typo, retype"
       cohort = gets.chomp
-      if cohort.empty? 
+      if cohort.empty?
          cohort = "November"
           break
       end
     end
-
 
     students << {name: name, cohort: cohort.to_sym, hobby: :skiing, country_of_birth: :UK, height: :"180"}
     # now, we print a line to let the user know how many students have been entered so far
     puts "Now we have #{students.count} students"
     # get another name from the user
     name = gets.chomp
+    cohorts = []
+
   end
-
-
-  # return the array of students
-  students
+  # return the list of students
+  students.sort_by {|x| x[:cohort]} # students variable is changed to the sorted by cohort version, and print(students) method will now print a sorted list of students by cohort (as it takes the result of curretn method as an argument)
 end
-
 
 def print_header
   puts "The students of Villains Academy"
@@ -60,7 +58,9 @@ end
 
 def print(students)
 i = 0
+
 while i < students.count
+
     puts "#{students[i][:name]} (#{students[i][:cohort]} cohort)".center(80),
     "Hobby - #{students[i][:hobby]}".center(80),
     "Country of Birth - #{students[i][:country_of_birth]}".center(80),
@@ -69,19 +69,12 @@ while i < students.count
     #puts "#{student_info}".center(80)
     i += 1
   end
+
 end # ending the method
 
 
-def names_start_with_S(students, letter = nil) # second argument- nil if defaul is nil
-
-  puts "A list of students whose names begin in #{letter}:"
-
-  students.each do |student|
-
-    if student[:name][0].downcase == nil || student[:name][0].downcase == letter.downcase # index number refers to the first letter in the name :name
-      puts "#{student[:name]} (#{student[:cohort]} cohort) whose hobby is #{student[:hobby]}"
-    end
-  end
+def print_footer(students)
+  puts "Overall, we have #{students.count} great students".center(80)
 end
 
 def length_lessthan12(students)
@@ -94,9 +87,16 @@ def length_lessthan12(students)
   end
 end
 
+def names_start_with_S(students, letter = nil) # second argument- nil if defaul is nil
 
-def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(80)
+  puts "A list of students whose names begin in #{letter}:"
+
+  students.each do |student|
+
+    if student[:name][0].downcase == nil || student[:name][0].downcase == letter.downcase # index number refers to the first letter in the name :name
+      puts "#{student[:name]} (#{student[:cohort]} cohort) whose hobby is #{student[:hobby]}"
+    end
+  end
 end
 
 students = input_students #array of students returned by input_students is assigned to variable students

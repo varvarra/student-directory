@@ -27,7 +27,7 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students_argv
+      load_students
     when "9"
       exit # this will terminate the programm
     else
@@ -65,6 +65,7 @@ def save_students
     file.puts csv_line  # writing to the file using method puts
   end
   file.close # every time you open a file it needs to be closed
+  puts "Student information successfully saved to the students.csv file"
 end
 
 def input_students
@@ -88,19 +89,19 @@ end
 
 
 def load_students (filename = "students.csv")
-  File.open(filename, "r").readlines.each {
+  file = File.open(filename, "r")
+  file.readlines.each {
   |line| name, cohort = line.chomp.split(',')
   add_students_to_hash(name, cohort.to_sym)
-} #once we have the name and cohort we create a new hash and put it into teh list of students
-  # file.close redundunt as we have file.close in load_students_argv method
+}
+file.close
+ puts "Student list successfully loaded from the #{filename}" # message saying that the action was successful
 end
 
 def load_students_argv # changed name of the method
   filename = ARGV.first # first argument from the command line
-  if filename.nil?
-    load_students("students.csv")
-    puts "Loaded #{@students.count} student names from default file students.csv"
-  elsif File.exists?(filename) # if it exists
+  return if filename.nil?
+  if File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} student names from #{filename}"
   else # if it doesn't exist
@@ -109,5 +110,5 @@ def load_students_argv # changed name of the method
   end
 end
 
-load_students_argv # gives information on the number of loaded students before inputting new ones
+load_students_argv # gives information on the number of loaded students before inputing new ones
 interactive_menu

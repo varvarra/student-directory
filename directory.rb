@@ -1,19 +1,5 @@
 
 @students = [] # an empty array  accessible to all methods
-def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # get the first name
-  name = STDIN.gets.chomp
-  # while the name is not empty, repeat this code
-  while !name.empty? do
-    # add the student hash to the array
-    @students << {name: name, cohort: :november}
-    puts "Now we have #{@students.count} students"
-    # get another name from the user
-    name = STDIN.gets.chomp
-  end
-end
 
 def interactive_menu
   loop do
@@ -82,6 +68,21 @@ def save_students
   file.close # every time you open a file it needs to be closed
 end
 
+def input_students
+  puts "Please enter the names of the students"
+  puts "To finish, just hit return twice"
+  # get the first name
+  name = STDIN.gets.chomp
+  # while the name is not empty, repeat this code
+  while !name.empty? do
+    # add the student hash to the array
+    add_students(name)
+    puts "Now we have #{@students.count} students"
+    # get another name from the user
+    name = STDIN.gets.chomp
+  end
+end
+
 def load_students(filename = "students.csv")
   file = File.open(filename, "r") # open file for reading
   # then read all lines into array and iterate over it
@@ -89,9 +90,12 @@ def load_students(filename = "students.csv")
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',') # assign  line to the name and cohort variables
   #once we have the name and cohort we create a new hash and put it into teh list of students
-    @students << {name: name, cohort: cohort.to_sym}
+    add_students(name, cohort.to_sym)
   end
   file.close
+end
+def add_students (name, cohort = :november)
+    @students << {name: name, cohort: cohort}
 end
 
 def try_load_students

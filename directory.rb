@@ -47,9 +47,8 @@ def print_header
 end
 
 def print_students_list
-  @students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
-  end
+  @students.each {|student|
+    puts "#{student[:name]} (#{student[:cohort]} cohort)"}
 end
 
 def print_footer
@@ -76,47 +75,39 @@ def input_students
   # while the name is not empty, repeat this code
   while !name.empty? do
     # add the student hash to the array
-    add_students(name)
+    add_students_to_hash(name)
     puts "Now we have #{@students.count} students"
     # get another name from the user
     name = STDIN.gets.chomp
   end
 end
 
-def add_students (name, cohort = :november)
+def add_students_to_hash(name, cohort = :november)
     @students << {name: name, cohort: cohort}
 end
 
 
 def load_students (filename = "students.csv")
-  file = File.open(filename, "r") # open file for reading
-  # then read all lines into array and iterate over it
-  # using parallel assignment
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',') # assign  line to the name and cohort variables
-  #once we have the name and cohort we create a new hash and put it into teh list of students
-    add_students(name, cohort)
-  end
-  file.close
+  File.open(filename, "r").readlines.each {
+  |line| name, cohort = line.chomp.split(',')
+  add_students_to_hash(name, cohort.to_sym)
+} #once we have the name and cohort we create a new hash and put it into teh list of students
+  # file.close redundunt as we have file.close in load_students_argv method
 end
 
-def load_students_argv
+def load_students_argv # changed name of the method
   filename = ARGV.first # first argument from the command line
   if filename.nil?
-
     load_students("students.csv")
-    puts "Loaded #{@students.count} from default file students.csv"
-
-    #load_students("students.csv") # if no file is given on a startup (on the command line), then call load_students method with default students.csv file as an argument
+    puts "Loaded #{@students.count} student names from default file students.csv"
   elsif File.exists?(filename) # if it exists
     load_students(filename)
-    puts "Loaded #{@students.count} from #{filename}"
-    show_students
+    puts "Loaded #{@students.count} student names from #{filename}"
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit
   end
 end
 
-load_students_argv
+load_students_argv # gives information on the number of loaded students before inputting new ones
 interactive_menu

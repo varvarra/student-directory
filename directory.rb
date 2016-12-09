@@ -18,12 +18,6 @@ def print_menu
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
-def show_students
-  print_header
-  print_student_list
-  print_footer
-end
-
 def process(selection)
   case selection
     when "1"
@@ -33,7 +27,7 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students
+      load_students_argv
     when "9"
       exit # this will terminate the programm
     else
@@ -41,12 +35,18 @@ def process(selection)
   end
 end
 
+def show_students
+  print_header
+  print_students_list
+  print_footer
+end
+
 def print_header
   puts "The students of Villains Academy".center(80)
   puts "-------------".center(80)
 end
 
-def print_student_list
+def print_students_list
   @students.each do |student|
     puts "#{student[:name]} (#{student[:cohort]} cohort)"
   end
@@ -63,7 +63,7 @@ def save_students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]] # put all elements of the students hash into array student_data
     csv_line = student_data.join(",") # convert it to the string and join it together using coma separator
-    file.puts csv_line # writing to the file using method puts
+    file.puts csv_line  # writing to the file using method puts
   end
   file.close # every time you open a file it needs to be closed
 end
@@ -83,33 +83,40 @@ def input_students
   end
 end
 
-def load_students(filename = "students.csv")
+def add_students (name, cohort = :november)
+    @students << {name: name, cohort: cohort}
+end
+
+
+def load_students (filename = "students.csv")
   file = File.open(filename, "r") # open file for reading
   # then read all lines into array and iterate over it
   # using parallel assignment
   file.readlines.each do |line|
   name, cohort = line.chomp.split(',') # assign  line to the name and cohort variables
   #once we have the name and cohort we create a new hash and put it into teh list of students
-    add_students(name, cohort.to_sym)
+    add_students(name, cohort)
   end
   file.close
 end
-def add_students (name, cohort = :november)
-    @students << {name: name, cohort: cohort}
-end
 
-def try_load_students
+def load_students_argv
   filename = ARGV.first # first argument from the command line
   if filename.nil?
-    load_students("students.csv") # if no file is given on a startup (on the command line), then call load_students method with default students.csv file as an argument
+
+    load_students("students.csv")
+    puts "Loaded #{@students.count} from default file students.csv"
+
+    #load_students("students.csv") # if no file is given on a startup (on the command line), then call load_students method with default students.csv file as an argument
   elsif File.exists?(filename) # if it exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
+    show_students
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit
   end
 end
 
-try_load_students
+load_students_argv
 interactive_menu

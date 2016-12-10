@@ -25,9 +25,9 @@ def process(selection)
     when "2" # show the students
       show_students
     when "3"
-      save_students(input_filename) #passing an argument returned in the method input_filename
+      save_students #passing an argument returned in the method input_filename
     when "4"
-      load_students(input_filename)
+      load_students
     when "9"
       exit # this will terminate the programm
     else
@@ -61,15 +61,13 @@ def input_filename
 end
 
 
-def save_students(filename)
+def save_students(filename = "students.csv")
   file =  File.open(filename, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]] # put all elements of the students hash into array student_data
-    csv_line = student_data.join(",") # convert it to the string and join it together using coma separator
-    file.puts csv_line  # writing to the file using method puts
-  end
-  file.close # every time you open a file it needs to be closed
+  @students.each { |student|
+  student_data = [student[:name], student[:cohort]]
+  csv_line = student_data.join(",")
+  file.puts csv_line}
+
   puts "Student information successfully saved to the students.csv file"
 end
 
@@ -94,12 +92,13 @@ end
 
 
 def load_students (filename = "students.csv")
-  file = File.open(filename, "r")
+  file = File.open(filename, "r") {
+  |file|
   file.readlines.each {
   |line| name, cohort = line.chomp.split(',')
   add_students_to_hash(name, cohort.to_sym)
 }
-file.close
+}
  puts "Student list successfully loaded from the #{filename}" # message saying that the action was successful
 end
 

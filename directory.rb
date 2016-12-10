@@ -1,4 +1,5 @@
 
+require "CSV"
 @students = [] # an empty array  accessible to all methods
 
 def interactive_menu
@@ -60,17 +61,6 @@ def input_filename
   filename = gets.chomp
 end
 
-
-def save_students(filename = "students.csv")
-  file =  File.open(filename, "w")
-  @students.each { |student|
-  student_data = [student[:name], student[:cohort]]
-  csv_line = student_data.join(",")
-  file.puts csv_line}
-
-  puts "Student information successfully saved to the students.csv file"
-end
-
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
@@ -90,15 +80,20 @@ def add_students_to_hash(name, cohort = :november)
     @students << {name: name, cohort: cohort}
 end
 
+def save_students(filename = "students.csv")
+  CSV.open(filename, "w") {
+  |file|
+  @students.each {
+    |student|
+    file << [student[:name], student[:cohort]]}
+  }
+
+  puts "Student information successfully saved to the students.csv file"
+end
 
 def load_students (filename = "students.csv")
-  file = File.open(filename, "r") {
-  |file|
-  file.readlines.each {
-  |line| name, cohort = line.chomp.split(',')
-  add_students_to_hash(name, cohort.to_sym)
-}
-}
+  CSV.foreach(filename) { #foreach method fives a line at a time instead of file.readlines.each {
+  |line| add_students_to_hash(line[0], line[1].to_sym)}
  puts "Student list successfully loaded from the #{filename}" # message saying that the action was successful
 end
 

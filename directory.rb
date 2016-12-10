@@ -25,9 +25,9 @@ def process(selection)
     when "2" # show the students
       show_students
     when "3"
-      save_students
+      save_students(input_filename) #passing an argument returned in the method input_filename
     when "4"
-      load_students
+      load_students(input_filename)
     when "9"
       exit # this will terminate the programm
     else
@@ -55,9 +55,14 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
-def save_students
-  # open the file for writing
-  file = File.open("students.csv", "w")
+def input_filename
+  puts "Type the name of the file you want to use for this action"
+  filename = gets.chomp
+end
+
+
+def save_students(filename)
+  file =  File.open(filename, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]] # put all elements of the students hash into array student_data
